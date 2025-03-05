@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | Clustrex</title>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #4cc9f0;
+            --background: #f8f9fa;
+            --card: #ffffff;
+            --text: #2b2d42;
+            --text-light: #8d99ae;
+            --success: #2dc653;
+            --warning: #ff9f1c;
+            --danger: #e63946;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        
+        body {
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        header {
+            background-color: var(--card);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+        
+        .logo-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            margin-left: 2px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .signup-container {
+            display: flex;
+            width: 100%;
+            max-width: 900px;
+            background-color: var(--card);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .signup-image {
+            flex: 1;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .signup-form {
+            flex: 1;
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            max-height: 90vh;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        
+        h2 {
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        p {
+            margin-bottom: 1.5rem;
+            color: var(--text-light);
+        }
+        
+        .signup-image p {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .signup-benefit {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        
+        .signup-benefit-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .signup-benefit-text {
+            color: white;
+            font-weight: 500;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+            background-color: white;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
+        }
+        
+        .password-requirements {
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+        
+        .requirement {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.25rem;
+        }
+        
+        .requirement-icon {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 1px solid var(--text-light);
+        }
+        
+        .requirement-icon.valid {
+            background-color: var(--success);
+            border-color: var(--success);
+        }
+        
+        .form-checkbox {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-checkbox input {
+            width: auto;
+            margin-top: 0.3rem;
+        }
+        
+        .form-checkbox label {
+            margin-bottom: 0;
+            font-weight: normal;
+            font-size: 0.875rem;
+        }
+        
+        .terms-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .terms-link:hover {
+            text-decoration: underline;
+        }
+        
+        .button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            width: 100%;
+            font-size: 1rem;
+        }
+        
+        .button:hover {
+            background-color: var(--secondary);
+        }
+        
+        .signup-divider {
+            display: flex;
+            align-items: center;
+            margin: 1.5rem 0;
+            color: var(--text-light);
+        }
+        
+        .signup-divider::before,
+        .signup-divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+        
+        .signup-divider span {
+            padding: 0 1rem;
+            font-size: 0.875rem;
+        }
+        
+        .social-signup {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .social-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            background-color: white;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .social-btn:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        
+        .signup-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+        
+        .login-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .login-link:hover {
+            text-decoration: underline;
+        }
+        
+        footer {
+            background-color: var(--card);
+            padding: 1.5rem 2rem;
+            text-align: center;
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+        
+        @media (max-width: 768px) {
+            .signup-container {
+                flex-direction: column;
+                max-width: 500px;
+            }
+            
+            .signup-image,
+            .signup-form {
+                padding: 2rem;
+            }
+            
+            .form-row {
+                flex-direction: row;
+                gap: 1.5rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="#" class="logo">
+            Clustrex<span class="logo-dot"></span>
+        </a>
+    </header>
+    
+    <div class="container">
+        <div class="signup-container">
+            <div class="signup-image">
+                <h1>Begin Your Wellness Journey</h1>
+                <p>Join thousands of users who are transforming their health with AI-powered insights and personalized recommendations.</p>
+                
+                <div class="signup-benefits" style="margin-top: 2rem;">
+                    <div class="signup-benefit">
+                        <div class="signup-benefit-icon">🔍</div>
+                        <div class="signup-benefit-text">Personalized health insights</div>
+                    </div>
+                    <div class="signup-benefit">
+                        <div class="signup-benefit-icon">📊</div>
+                        <div class="signup-benefit-text">Comprehensive tracking</div>
+                    </div>
+                    <div class="signup-benefit">
+                        <div class="signup-benefit-icon">🏆</div>
+                        <div class="signup-benefit-text">Gamified habit building</div>
+                    </div>
+                    <div class="signup-benefit">
+                        <div class="signup-benefit-icon">🔒</div>
+                        <div class="signup-benefit-text">Privacy-first approach</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="signup-form">
+                <h2>Create Your Account</h2>
+                <p>Fill in your details to get started with Clustrex</p>
+                
+                <form>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">First Name</label>
+                            <input type="text" id="firstName" placeholder="First name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" id="lastName" placeholder="Last name" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" placeholder="your@email.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Create Password</label>
+                        <input type="password" id="password" placeholder="Create a strong password" required>
+                        
+                        <div class="password-requirements">
+                            <div class="requirement">
+                                <span class="requirement-icon valid"></span>
+                                <span>At least 8 characters</span>
+                            </div>
+                            <div class="requirement">
+                                <span class="requirement-icon"></span>
+                                <span>At least one uppercase letter</span>
+                            </div>
+                            <div class="requirement">
+                                <span class="requirement-icon valid"></span>
+                                <span>At least one number</span>
+                            </div>
+                            <div class="requirement">
+                                <span class="requirement-icon"></span>
+                                <span>At least one special character</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="birthdate">Date of Birth</label>
+                            <input type="date" id="birthdate" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="gender">Gender</label>
+                            <select id="gender" required>
+                                <option value="" disabled selected>Select gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="non-binary">Non-binary</option>
+                                <option value="other">Other</option>
+                                <option value="prefer-not">Prefer not to say</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-checkbox">
+                        <input type="checkbox" id="terms" required>
+                        <label for="terms">I agree to the <a href="#" class="terms-link">Terms of Service</a> and <a href="#" class="terms-link">Privacy Policy</a></label>
+                    </div>
+                    
+                    <div class="form-checkbox">
+                        <input type="checkbox" id="newsletter">
+                        <label for="newsletter">I want to receive health tips, product updates, and promotional offers from Clustrex</label>
+                    </div>
+                    
+                    <button type="submit" class="button">Create Account</button>
+                </form>
+                
+                <div class="signup-divider">
+                    <span>Or sign up with</span>
+                </div>
+                
+                <div class="social-signup">
+                    <button class="social-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                        </svg>
+                        Facebook
+                    </button>
+                    <button class="social-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"></path>
+                            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"></path>
+                            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"></path>
+                            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"></path>
+                        </svg>
+                        Google
+                    </button>
+                </div>
+                
+                <div class="signup-footer">
+                    <p>Already have an account? <a href="#" class="login-link">Log in</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        © 2025 Clustrex. AI-Powered Personalized Health Education.
+    </footer>
+
+    <script>
+        // Add this script at the bottom of your HTML body or in a separate script file
+
+document.addEventListener('DOMContentLoaded', function() {
+    const passwordInput = document.getElementById('password');
+    const requirements = [
+        { id: 0, regex: /.{8,}/, element: document.querySelectorAll('.requirement-icon')[0] },
+        { id: 1, regex: /[A-Z]/, element: document.querySelectorAll('.requirement-icon')[1] },
+        { id: 2, regex: /[0-9]/, element: document.querySelectorAll('.requirement-icon')[2] },
+        { id: 3, regex: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/, element: document.querySelectorAll('.requirement-icon')[3] }
+    ];
+    
+    // Function to check password requirements
+    function checkPasswordRequirements(password) {
+        requirements.forEach(requirement => {
+            const isValid = requirement.regex.test(password);
+            toggleRequirementValid(requirement.element, isValid);
+        });
+    }
+    
+    // Function to toggle the valid class
+    function toggleRequirementValid(element, isValid) {
+        if (isValid) {
+            element.classList.add('valid');
+        } else {
+            element.classList.remove('valid');
+        }
+    }
+    
+    // Event listener for password input
+    passwordInput.addEventListener('input', function() {
+        checkPasswordRequirements(this.value);
+    });
+    
+    // Also check confirm password match
+    const confirmPasswordInput = document.getElementById('confirmPassword');
+    const submitButton = document.querySelector('button[type="submit"]');
+    
+    function checkPasswordsMatch() {
+        const password = passwordInput.value;
+        const confirmPassword = confirmPasswordInput.value;
+        
+        if (confirmPassword === '') return;
+        
+        if (password === confirmPassword) {
+            confirmPasswordInput.style.borderColor = 'var(--success)';
+            confirmPasswordInput.style.boxShadow = '0 0 0 2px rgba(45, 198, 83, 0.2)';
+        } else {
+            confirmPasswordInput.style.borderColor = 'var(--danger)';
+            confirmPasswordInput.style.boxShadow = '0 0 0 2px rgba(230, 57, 70, 0.2)';
+        }
+    }
+    
+    confirmPasswordInput.addEventListener('input', checkPasswordsMatch);
+    passwordInput.addEventListener('input', function() {
+        if (confirmPasswordInput.value !== '') {
+            checkPasswordsMatch();
+        }
+    });
+    
+    // Form submission validation
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function(e) {
+        const password = passwordInput.value;
+        let isValid = true;
+        
+        // Check if all password requirements are met
+        requirements.forEach(requirement => {
+            if (!requirement.regex.test(password)) {
+                isValid = false;
+            }
+        });
+        
+        // Check if passwords match
+        if (password !== confirmPasswordInput.value) {
+            isValid = false;
+            alert('Passwords don\'t match!');
+        }
+        
+        if (!isValid) {
+            e.preventDefault();
+            alert('Please ensure all password requirements are met.');
+        }
+    });
+    
+    // Initialize validation state based on any pre-filled values
+    if (passwordInput.value) {
+        checkPasswordRequirements(passwordInput.value);
+    }
+});
+    </script>
+
+<script>
+    document.querySelector('form').addEventListener('submit', async function(event) {
+        event.preventDefault();
+        
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        
+        const response = await fetch('http://127.0.0.1:5000/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, password })
+        });
+    
+        const data = await response.json();
+        alert(data.message || data.error);
+    });
+    </script>
+    
+</body>
+</html>

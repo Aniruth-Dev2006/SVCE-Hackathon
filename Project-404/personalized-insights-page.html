@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clustrex - Your Health Insights</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-light: #60a5fa;
+      --secondary: #10b981;
+      --dark: #1e293b;
+      --light: #f8fafc;
+      --accent: #f97316;
+      --danger: #ef4444;
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --gray: #94a3b8;
+      --border-radius: 8px;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+    
+    body {
+      background-color: #f1f5f9;
+      color: var(--dark);
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    header {
+      background-color: white;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      padding: 16px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--primary);
+    }
+    
+    .logo span {
+      color: var(--secondary);
+    }
+    
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 24px;
+    }
+    
+    nav a {
+      text-decoration: none;
+      color: var(--dark);
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    
+    nav a:hover {
+      color: var(--primary);
+    }
+    
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--primary-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+    }
+    
+    main {
+      padding: 32px 0;
+    }
+    
+    .page-title {
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .page-title h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+    }
+    
+    .insights-overview {
+      background-color: white;
+      border-radius: var(--border-radius);
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .insights-overview h2 {
+      font-size: 1.25rem;
+      margin-bottom: 16px;
+    }
+    
+    .health-score {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    
+    .score-circle {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: conic-gradient(var(--success) 0% 85%, #e2e8f0 85% 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    
+    .score-circle::before {
+      content: "";
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background-color: white;
+    }
+    
+    .score-value {
+      position: relative;
+      z-index: 1;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--dark);
+    }
+    
+    .score-details {
+      flex: 1;
+    }
+    
+    .score-details h3 {
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+    }
+    
+    .trend {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--success);
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+    
+    .trend.negative {
+      color: var(--danger);
+    }
+    
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+    
+    .card {
+      background-color: white;
+      border-radius: var(--border-radius);
+      padding: 24px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    
+    .card-header h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+    
+    .card-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+    
+    .card-icon.activity {
+      background-color: var(--primary);
+    }
+    
+    .card-icon.nutrition {
+      background-color: var(--secondary);
+    }
+    
+    .card-icon.sleep {
+      background-color: var(--accent);
+    }
+    
+    .card-icon.stress {
+      background-color: var(--warning);
+    }
+    
+    .metric {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    
+    .metric-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    
+    .metric-unit {
+      color: var(--gray);
+    }
+    
+    .target {
+      color: var(--gray);
+      font-size: 0.9rem;
+      margin-bottom: 16px;
+    }
+    
+    .progress-bar {
+      height: 8px;
+      background-color: #e2e8f0;
+      border-radius: 4px;
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      border-radius: 4px;
+    }
+    
+    .progress-fill.activity {
+      background-color: var(--primary);
+      width: 78%;
+    }
+    
+    .progress-fill.nutrition {
+      background-color: var(--secondary);
+      width: 65%;
+    }
+    
+    .progress-fill.sleep {
+      background-color: var(--accent);
+      width: 85%;
+    }
+    
+    .progress-fill.stress {
+      background-color: var(--warning);
+      width: 45%;
+    }
+    
+    .recommendations {
+      margin-top: 24px;
+    }
+    
+    .recommendations h3 {
+      font-size: 1.25rem;
+      margin-bottom: 16px;
+    }
+    
+    .rec-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    
+    .rec-item {
+      display: flex;
+      gap: 16px;
+      padding: 16px;
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .rec-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      background-color: var(--primary);
+    }
+    
+    .rec-content {
+      flex: 1;
+    }
+    
+    .rec-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    
+    .rec-desc {
+      color: var(--gray);
+      margin-bottom: 8px;
+    }
+    
+    .rec-actions {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .btn {
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+    
+    .btn-primary {
+      background-color: var(--primary);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background-color: #1d4ed8;
+    }
+    
+    .btn-outline {
+      background-color: transparent;
+      border: 1px solid var(--gray);
+      color: var(--dark);
+    }
+    
+    .btn-outline:hover {
+      background-color: #f1f5f9;
+    }
+    
+    .health-trends {
+      background-color: white;
+      border-radius: var(--border-radius);
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .trend-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    
+    .trend-selectors {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .trend-select {
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: 1px solid #e2e8f0;
+      background-color: white;
+      font-size: 0.9rem;
+      color: var(--dark);
+    }
+    
+    .chart-container {
+      height: 240px;
+      margin-bottom: 16px;
+      position: relative;
+    }
+    
+    .chart-line {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: flex-end;
+    }
+    
+    .chart-bar {
+      flex: 1;
+      background-color: #dbeafe;
+      margin: 0 4px;
+      position: relative;
+    }
+    
+    .chart-bar:nth-child(2) { height: 45%; }
+    .chart-bar:nth-child(3) { height: 65%; }
+    .chart-bar:nth-child(4) { height: 55%; }
+    .chart-bar:nth-child(5) { height: 75%; }
+    .chart-bar:nth-child(6) { height: 60%; }
+    .chart-bar:nth-child(7) { height: 78%; }
+    
+    .chart-bar::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background-color: var(--primary);
+    }
+    
+    .chart-labels {
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    .chart-label {
+      font-size: 0.8rem;
+      color: var(--gray);
+      text-align: center;
+      flex: 1;
+    }
+    
+    .connected-devices {
+      background-color: white;
+      border-radius: var(--border-radius);
+      padding: 24px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .devices-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    
+    .device-list {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    
+    .device-item {
+      background-color: #f8fafc;
+      border-radius: var(--border-radius);
+      padding: 16px;
+      flex: 1;
+      min-width: 200px;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .device-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      background-color: #dbeafe;
+      margin-bottom: 12px;
+    }
+    
+    .device-name {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    
+    .device-status {
+      font-size: 0.8rem;
+      color: var(--success);
+      margin-bottom: 8px;
+    }
+    
+    .device-info {
+      font-size: 0.9rem;
+      color: var(--gray);
+    }
+    
+    @media (max-width: 768px) {
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .health-score {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .device-item {
+        min-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="container">
+      <div class="page-title">
+        <h1>Your Health Insights</h1>
+        <button class="btn btn-primary">Share Report</button>
+      </div>
+      
+      <div class="insights-overview">
+        <h2>Health Overview</h2>
+        <div class="health-score">
+          <div class="score-circle">
+            <div class="score-value">85</div>
+          </div>
+          <div class="score-details">
+            <h3>Your Health Score</h3>
+            <div class="trend">
+              ↑ Increased by 3 points since last week
+            </div>
+            <p>Your overall health is excellent. Keep up the good work with your sleep schedule and activity levels.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-header">
+            <h3>Activity</h3>
+            <div class="card-icon activity">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            </div>
+          </div>
+          <div class="metric">
+            <span class="metric-value">7,842</span>
+            <span class="metric-unit">steps</span>
+          </div>
+          <div class="target">Target: 10,000 steps</div>
+          <div class="progress-bar">
+            <div class="progress-fill activity"></div>
+          </div>
+          <p>You're more active on weekdays. Try adding a weekend walk to boost your average.</p>
+        </div>
+        
+        <div class="card">
+          <div class="card-header">
+            <h3>Nutrition</h3>
+            <div class="card-icon nutrition">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+            </div>
+          </div>
+          <div class="metric">
+            <span class="metric-value">1,850</span>
+            <span class="metric-unit">calories</span>
+          </div>
+          <div class="target">Target: 2,200 calories</div>
+          <div class="progress-bar">
+            <div class="progress-fill nutrition"></div>
+          </div>
+          <p>Your protein intake is below recommended levels. Consider adding more plant-based proteins.</p>
+        </div>
+        
+        <div class="card">
+          <div class="card-header">
+            <h3>Sleep</h3>
+            <div class="card-icon sleep">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 17h5v-2h-5V7h5V5h-5a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2z"></path><path d="M2 7h5a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H2z"></path></svg>
+            </div>
+          </div>
+          <div class="metric">
+            <span class="metric-value">7.3</span>
+            <span class="metric-unit">hours</span>
+          </div>
+          <div class="target">Target: 8 hours</div>
+          <div class="progress-bar">
+            <div class="progress-fill sleep"></div>
+          </div>
+          <p>Your deep sleep has improved by 12% this week. Keep maintaining your consistent sleep schedule.</p>
+        </div>
+        
+        <div class="card">
+          <div class="card-header">
+            <h3>Stress</h3>
+            <div class="card-icon stress">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+            </div>
+          </div>
+          <div class="metric">
+            <span class="metric-value">45</span>
+            <span class="metric-unit">stress score</span>
+          </div>
+          <div class="target">Target: Below 40</div>
+          <div class="progress-bar">
+            <div class="progress-fill stress"></div>
+          </div>
+          <p>Your stress levels peak in the late afternoon. Try a short meditation break around 3pm.</p>
+        </div>
+      </div>
+      
+      <div class="health-trends">
+        <div class="trend-header">
+          <h2>Weekly Trends</h2>
+          <div class="trend-selectors">
+            <select class="trend-select">
+              <option>Activity</option>
+              <option>Nutrition</option>
+              <option>Sleep</option>
+              <option>Stress</option>
+            </select>
+            <select class="trend-select">
+              <option>Last 7 days</option>
+              <option>Last 30 days</option>
+              <option>Last 90 days</option>
+            </select>
+          </div>
+        </div>
+        <div class="chart-container">
+          <div class="chart-line">
+            <div class="chart-bar"></div>
+            <div class="chart-bar"></div>
+            <div class="chart-bar"></div>
+            <div class="chart-bar"></div>
+            <div class="chart-bar"></div>
+            <div class="chart-bar"></div>
+            <div class="chart-bar"></div>
+          </div>
+        </div>
+        <div class="chart-labels">
+          <div class="chart-label">Mon</div>
+          <div class="chart-label">Tue</div>
+          <div class="chart-label">Wed</div>
+          <div class="chart-label">Thu</div>
+          <div class="chart-label">Fri</div>
+          <div class="chart-label">Sat</div>
+          <div class="chart-label">Sun</div>
+        </div>
+      </div>
+      
+      <div class="recommendations">
+        <h3>Personalized Recommendations</h3>
+        <div class="rec-list">
+          <div class="rec-item">
+            <div class="rec-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg>
+            </div>
+            <div class="rec-content">
+              <div class="rec-title">Increase your water intake</div>
+              <div class="rec-desc">Based on your activity level and local weather, we recommend increasing your daily water intake to 3 liters.</div>
+              <div class="rec-actions">
+                <button class="btn btn-primary">Watch Video</button>
+                <button class="btn btn-outline">Learn More</button>
+              </div>
+            </div>
+          </div>
+          <div class="rec-item">
+            <div class="rec-icon" style="background-color: var(--secondary);">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg>
+            </div>
+            <div class="rec-content">
+              <div class="rec-title">Try this 10-minute stretching routine</div>
+              <div class="rec-desc">Your sitting patterns indicate increased tension in your shoulders and back. This quick routine can help.</div>
+              <div class="rec-actions">
+                <button class="btn btn-primary">Start Now</button>
+                <button class="btn btn-outline">Schedule</button>
+              </div>
+            </div>
+          </div>
+          <div class="rec-item">
+            <div class="rec-icon" style="background-color: var(--accent);">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            </div>
+            <div class="rec-content">
+              <div class="rec-title">Connect with a nutrition coach</div>
+              <div class="rec-desc">Your meal patterns show an opportunity to optimize your protein intake for better recovery.</div>
+              <div class="rec-actions">
+                <button class="btn btn-primary">Book Session</button>
+                <button class="btn btn-outline">View Profile</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="connected-devices">
+        <div class="devices-header">
+          <h2>Connected Devices</h2>
+          <button class="btn btn-outline">Add Device</button>
+        </div>
+        <div class="device-list">
+          <div class="device-item">
+            <div class="device-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 2H8a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"></path><path d="M12 18h.01"></path></svg>
+            </div>
+            <div class="device-name">Fitbit Sense</div>
+            <div class="device-status">Connected</div>
+            <div class="device-info">Last sync: 35 minutes ago</div>
+          </div>
+          <div class="device-item">
+            <div class="device-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            </div>
+            <div class="device-name">Smart Scale</div>
+            <div class="device-status">Connected</div>
+            <div class="device-info">Last sync: 2 days ago</div>
+          </div>
+          <div class="device-item">
+            <div class="device-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+            </div>
+            <div class="device-name">Sleep Monitor</div>
+            <div class="device-status">Connected</div>
+            <div class="device-info">Last sync: 8 hours ago</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
